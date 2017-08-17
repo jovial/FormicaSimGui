@@ -2,73 +2,28 @@
  * Created by fluxoid on 17/02/17.
  */
 
+import java.util.{Timer, TimerTask}
+import javafx.event.EventHandler
+import javafx.stage.WindowEvent
+
+import org.cowboycoders.ant.interfaces.AntTransceiver
 import org.cowboycoders.ant.profiles.simulators._
 
 import scalafx.Includes._
-import scalafx.application.JFXApp
-import scalafx.beans.property.StringProperty
-import scalafx.scene.Scene
-import scalafx.scene.control.Button
-import scalafx.scene.control.SplitPane
+import scalafx.application.{JFXApp, Platform}
+import scalafx.beans.binding.{Bindings, ObjectBinding}
+import scalafx.beans.property.{BooleanProperty, DoubleProperty, ObjectProperty, StringProperty}
+import scalafx.beans.value.ObservableValue
+import scalafx.event.ActionEvent
+import scalafx.geometry.{Insets, Pos}
+import scalafx.scene.{Group, Parent, Scene}
+import scalafx.scene.control.Alert.AlertType
+import scalafx.scene.control._
+import scalafx.scene.layout._
+import scalafx.scene.paint.Color
 import scalafx.scene.paint.Color._
 import scalafx.scene.shape.Rectangle
-import scalafx.scene.layout.HBox
-import scalafx.scene.text.Text;
-import scalafx.scene.Node
-import scalafx.scene.layout.GridPane
-import scalafx.scene.layout.StackPane
-import scalafx.scene.layout.BorderPane
-import scalafx.scene.layout.FlowPane
-import scalafx.scene.control.TextArea
-import scalafx.scene.layout.ColumnConstraints
-import scalafx.scene.Parent
-import scalafx.geometry.Insets
-import scalafx.scene.layout.RowConstraints
-import scalafx.scene.layout.Priority
-import scalafx.scene.layout.TilePane
-import scalafx.scene.control.TextField
-import scalafx.scene.layout.VBox
-import scalafx.scene.text.Font
-import javafx.beans.value.ChangeListener
-import scalafx.scene.layout.AnchorPane
-import scalafx.animation.Timeline
-import scalafx.animation.KeyFrame
-import javafx.util.Duration
-import scalafx.geometry.Pos
-import scalafx.scene.layout.Region
-import scalafx.scene.control.Label
-import scalafx.beans.property.DoubleProperty
-import scalafx.scene.Group
-import scalafx.beans.property.IntegerProperty
-import scalafx.scene.control.ScrollPane
-import scalafx.event.ActionEvent
-import scalafx.application.Platform
-import scalafx.scene.control.Dialog
-import scalafx.stage.StageStyle
-import scalafx.scene.control.ButtonType
-import scalafx.beans.property.ReadOnlyProperty
-import scalafx.scene.paint.Color
-import scalafx.scene.text.TextAlignment
-import scalafx.beans.property.BooleanProperty
-import scalafx.scene.control.Alert
-import scalafx.scene.control.Alert.AlertType
-import scalafx.beans.property.ReadOnlyObjectProperty
-import scalafx.geometry.Bounds
-import org.cowboycoders.ant.interfaces.AntTransceiver
-import javafx.event.EventHandler
-import javafx.stage.WindowEvent
-import java.util.Timer
-import java.util.TimerTask
-import scalafx.beans.property.ObjectProperty
-import scalafx.event.subscriptions.Subscription
-import javafx.beans.value.ObservableNumberValue
-import javafx.beans.binding.DoubleBinding
-import scalafx.beans.binding.Bindings
-import scalafx.beans.binding.ObjectBinding
-import scalafx.beans.value.ObservableValue
-import scalafx.collections.transformation.FilteredBuffer
-import java.util.function.Predicate
-import scalafx.collections.ObservableBuffer
+import scalafx.scene.text.Text
 
 case class Cell(label: String, value: StringProperty)
 case class GridCellGroup(enabled: Option[BooleanProperty], cells: Array[Cell])
@@ -152,8 +107,7 @@ object HelloStageDemo extends JFXApp {
         () =>
           {
             power.value = turboModel.getPower.toString()
-            // we are doing conversion from m/s to km/h but we might use km/h internally later
-            speed.value = "%2.2f".format(turboModel.getSpeed.doubleValue() * 3.6)
+            speed.value = "%2.2f".format(turboModel.getSpeed.doubleValue())
             hr.value = Option(turboModel.getHeartRate).getOrElse(0).toString()
             cadence.value = turboModel.getCadence.toString
             distance.value = "%2.2f".format((turboModel.getDistance / 1000.0))
